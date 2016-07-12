@@ -166,7 +166,7 @@ class WechatController extends ActiveController
 
     //微信支付接口：打包支付数据
     public function actionPay(){
-        if(isset($_REQUEST["uid"])&&isset($_REQUEST["oid"])&&isset($_REQUEST["aid"])&&isset($_REQUEST["activity"])&&isset($_REQUEST["reduce"])&&isset($_REQUEST["traffic"])&&isset($_REQUEST["totalFee"])&&isset($_REQUEST["orderName"])){
+        if(isset($_REQUEST["uid"])&&isset($_REQUEST["oid"])&&isset($_REQUEST["totalFee"])&&isset($_REQUEST["orderName"])){
             //uid、oid
             $uid = $_REQUEST["uid"];
             $oid = $_REQUEST["oid"];
@@ -178,12 +178,9 @@ class WechatController extends ActiveController
             //商品订单参数
             $totalFee = $_REQUEST["totalFee"];
             $orderName = $_REQUEST["orderName"];
-
-            $total_fee = $totalFee;
-
             //支付打包
             $wx_pay = new WechatPay($mchid, $appid, $key);
-            $package = $wx_pay->createJsBizPackage($uid, $total_fee, $oid, $orderName, $notifyUrl, $timestamp);
+            $package = $wx_pay->createJsBizPackage($uid, $totalFee, $oid, $orderName, $notifyUrl, $timestamp);
             $result['error'] = 0;
             $result['msg'] = '支付打包成功';
             $result['package'] = $package;
